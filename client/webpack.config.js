@@ -1,28 +1,28 @@
-const path = require("path");
+const path = require('path');
 
 const config = {
-  entry: ["@babel/polyfill", "./src/index.js"],
+  entry: ['@babel/polyfill', './src/index.jsx'],
   output: {
-    path: path.resolve(__dirname, "build"),
-    filename: "main.js"
+    path: path.resolve(__dirname, 'build'),
+    filename: 'main.js',
   },
   devServer: {
-    contentBase: path.resolve(__dirname, "build"),
+    contentBase: path.resolve(__dirname, 'build'),
     compress: true,
     port: 3000,
     proxy: {
-      "/api": "http://localhost:3001"
-    }
+      '/api': 'http://localhost:3001',
+    },
   },
-  devtool: "source-map",
+  devtool: 'source-map',
   module: {
     rules: [
       {
         test: /\.(js|jsx)$/,
-        loader: "babel-loader"
-      }
-    ]
-  }
+        loader: 'babel-loader',
+      },
+    ],
+  },
 };
 
 module.exports = config;

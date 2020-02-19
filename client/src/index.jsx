@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import ReactDOM from "react-dom";
+import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
 
 class App extends Component {
   constructor(props) {
@@ -10,7 +10,7 @@ class App extends Component {
 
   componentDidMount = () => {
     const setCounter = async () => {
-      const response = await fetch("/api/counter");
+      const response = await fetch('/api/counter');
       const data = await response.json();
       this.setState({ counter: data.counter });
     };
@@ -18,13 +18,14 @@ class App extends Component {
   };
 
   render() {
+    const { counter } = this.state;
     return (
       <div>
-        <p>{this.state.counter}</p>
-        <button>Click me!</button>
+        <p>{counter}</p>
+        <button type="button">Click me!</button>
       </div>
     );
   }
 }
 
-ReactDOM.render(<App />, document.getElementById("root"));
+ReactDOM.render(<App />, document.getElementById('root'));
