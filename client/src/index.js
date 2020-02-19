@@ -10,7 +10,7 @@ class App extends Component {
 
   componentDidMount = () => {
     const setCounter = async () => {
-      const response = await fetch("http://localhost:3001/api/counter");
+      const response = await fetch("/api/counter");
       const data = await response.json();
       this.setState({ counter: data.counter });
     };
