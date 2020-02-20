@@ -1,25 +1,27 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
+import socketIOClient from 'socket.io-client';
 
 class App extends Component {
   constructor(props) {
     super(props);
 
-    this.state = { counter: null };
+    this.state = {
+      socket: socketIOClient(),
+      counter: null,
+    };
   }
 
   componentDidMount = () => {
-    const setCounter = async () => {
-      const response = await fetch('/api/counter');
-      const data = await response.json();
-      this.setState({ counter: data.counter });
-    };
-    setCounter();
+    const { socket } = this.state;
+    socket.on('initialize counter', data => this.setState({ counter: data }));
+    socket.on('incremented', data => this.setState({ counter: data }));
   };
 
   handleClick = () => {
-    const { counter } = this.state;
+    const { socket, counter } = this.state;
     this.setState({ counter: counter + 1 });
+    socket.emit('increment');
   };
 
   render() {
