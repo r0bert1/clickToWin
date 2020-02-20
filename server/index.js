@@ -1,14 +1,11 @@
 const express = require('express');
-const cors = require('cors');
 const path = require('path');
+const http = require('http');
+const socketIo = require('socket.io');
 
 const app = express();
-
-app.use(cors());
-
-app.get('/api/counter', (req, res) => {
-  res.send({ counter: 3 });
-});
+const server = http.createServer(app);
+const io = socketIo(server);
 
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static(path.resolve(__dirname, '../build')));
@@ -18,6 +15,22 @@ if (process.env.NODE_ENV === 'production') {
   });
 }
 
+let counter = 0;
+
+io.on('connection', socket => {
+  console.log('a user connected');
+  socket.emit('initialize counter', counter);
+
+  socket.on('increment', () => {
+    counter += 1;
+    socket.broadcast.emit('incremented', counter);
+  });
+
+  socket.on('disconnect', () => {
+    console.log('user disconnected');
+  });
+});
+
 const port = process.env.PORT || 3001;
 
-app.listen(port);
+server.listen(port, () => console.log(`Listening on port ${port}`));
