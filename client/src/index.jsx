@@ -17,12 +17,19 @@ class App extends Component {
     setCounter();
   };
 
+  handleClick = () => {
+    const { counter } = this.state;
+    this.setState({ counter: counter + 1 });
+  };
+
   render() {
     const { counter } = this.state;
     return (
       <div>
         <p>{counter}</p>
-        <button type="button">Click me!</button>
+        <button type="button" onClick={this.handleClick}>
+          Click me!
+        </button>
       </div>
     );
   }
