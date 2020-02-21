@@ -19,11 +19,11 @@ let counter = 0;
 
 io.on('connection', socket => {
   console.log('a user connected');
-  socket.emit('initialize counter', counter);
+  socket.emit('initialize', counter);
 
   socket.on('increment', () => {
     counter += 1;
-    socket.broadcast.emit('incremented', counter);
+    socket.broadcast.emit('update', counter);
   });
 
   socket.on('disconnect', () => {
