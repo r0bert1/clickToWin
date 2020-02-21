@@ -6,22 +6,22 @@ class App extends Component {
   constructor(props) {
     super(props);
 
+    this.socket = socketIOClient();
+
     this.state = {
-      socket: socketIOClient(),
       counter: null,
     };
   }
 
-  componentDidMount = () => {
-    const { socket } = this.state;
-    socket.on('initialize counter', data => this.setState({ counter: data }));
-    socket.on('incremented', data => this.setState({ counter: data }));
-  };
+  componentDidMount() {
+    this.socket.on('initialize', data => this.setState({ counter: data }));
+    this.socket.on('update', data => this.setState({ counter: data }));
+  }
 
   handleClick = () => {
-    const { socket, counter } = this.state;
+    const { counter } = this.state;
     this.setState({ counter: counter + 1 });
-    socket.emit('increment');
+    this.socket.emit('increment');
   };
 
   render() {
